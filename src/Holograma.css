@@ -1,0 +1,278 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+html {
+  overflow-x: clip;
+  overflow-y: clip;
+}
+
+body {
+  position: relative;
+  overscroll-behavior: none;
+}
+
+#root {
+  position: relative;
+  isolation: isolate;
+}
+
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+* {
+  scrollbar-width: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.hades-hologram-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+  isolation: isolate;
+  background: radial-gradient(circle at center, rgba(30, 2, 8, 0.85) 0%, rgba(12, 1, 3, 0.95) 55%, #030001 100%);
+  border: 2px solid rgba(255, 30, 50, 0.4);
+  box-shadow: inset 0 0 70px rgba(255, 10, 30, 0.25), 0 0 40px rgba(0, 0, 0, 0.9);
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 0px;
+  animation: hologram-border-pulse 5s cubic-bezier(0.4, 0, 0.6, 1) infinite, border-neon-flow 8s linear infinite;
+}
+
+@keyframes hologram-border-pulse {
+  0%, 100% {
+    border-color: rgba(255, 30, 50, 0.4);
+    box-shadow: inset 0 0 70px rgba(255, 10, 30, 0.25), 0 0 40px rgba(0,0,0,0.9);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+  50% {
+    border-color: rgba(255, 60, 90, 0.85);
+    box-shadow: inset 0 0 110px rgba(255, 20, 45, 0.45), 0 0 70px rgba(255, 0, 30, 0.65);
+    clip-path: polygon(0 0, 100% 0, 100% 99%, 0 100%);
+  }
+}
+
+@keyframes border-neon-flow {
+  0% { filter: hue-rotate(0deg); }
+  50% { filter: hue-rotate(-12deg); }
+  100% { filter: hue-rotate(0deg); }
+}
+
+.hades-hologram-wrapper canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 30px rgba(255, 25, 45, 0.65)) contrast(1.15) saturate(1.2);
+  animation: canvas-glitch-flux 6s infinite;
+}
+
+@keyframes canvas-glitch-flux {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 30px rgba(255, 25, 45, 0.65)); }
+  50% { transform: scale(1.008); filter: drop-shadow(0 0 45px rgba(255, 0, 40, 0.9)) hue-rotate(-8deg); }
+}
+
+.hades-scanner-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, transparent 50%, rgba(255, 0, 30, 0.08) 51%);
+  background-size: 100% 3px;
+  pointer-events: none;
+  z-index: 3;
+  animation: scanner-move 7s linear infinite;
+}
+
+@keyframes scanner-move {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 100vh; }
+}
+
+.hades-hud-corners .corner {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-color: rgba(255, 50, 80, 1);
+  border-style: solid;
+  pointer-events: none;
+  z-index: 4;
+  animation: hud-corner-glow 2s ease-in-out infinite alternate, corner-glitch 5s cubic-bezier(0.25, 1, 0.5, 1) infinite, corner-morph 6s ease-in-out infinite;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes corner-morph {
+  0%, 100% { border-radius: 0px; }
+  50% { border-radius: 8px; transform: scale(1.05); }
+}
+
+.hades-hud-corners .tl { top: 24px; left: 24px; border-width: 3px 0 0 3px; }
+.hades-hud-corners .tr { top: 24px; right: 24px; border-width: 3px 3px 0 0; }
+.hades-hud-corners .bl { bottom: 24px; left: 24px; border-width: 0 0 3px 3px; }
+.hades-hud-corners .br { bottom: 24px; right: 24px; border-width: 0 3px 3px 0; }
+
+@keyframes corner-glitch {
+  0%, 94%, 100% { transform: translate(0, 0) rotate(0deg); opacity: 0.95; filter: drop-shadow(0 0 6px rgba(255,0,30,0.6)); }
+  95% { transform: translate(-6px, 3px) skewX(12deg); opacity: 0.4; filter: drop-shadow(0 0 20px #ff0022); }
+  96% { transform: translate(6px, -3px) skewX(-12deg); opacity: 1; filter: drop-shadow(0 0 30px #ff1a33); }
+  97% { transform: translate(-3px, 0) scale(1.15); opacity: 0.8; }
+  98% { transform: translate(4px, 2px) rotate(3deg); opacity: 0.95; }
+}
+
+.hades-hologram-wrapper.is-listening {
+  border-color: rgba(255, 70, 100, 0.8);
+  box-shadow: inset 0 0 110px rgba(255, 50, 75, 0.35), 0 0 55px rgba(255, 25, 50, 0.5);
+}
+
+.hades-hologram-wrapper.is-speaking {
+  border-color: rgba(255, 20, 50, 1);
+  box-shadow: inset 0 0 140px rgba(255, 10, 35, 0.55), 0 0 85px rgba(255, 0, 25, 0.75);
+}
+
+.hades-hologram-wrapper.is-playing {
+  border-color: rgba(255, 0, 40, 1);
+  box-shadow: inset 0 0 180px rgba(255, 0, 30, 0.7), 0 0 110px rgba(255, 0, 40, 0.9);
+}
+
+.hades-hologram-hud-footer {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 90%;
+  max-width: 560px;
+  pointer-events: none;
+  z-index: 5;
+  animation: footer-float 4.5s ease-in-out infinite;
+}
+
+@keyframes footer-float {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-6px); }
+}
+
+.hades-hud-bar {
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255, 60, 90, 0.9), transparent);
+  animation: bar-shimmer 2.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes bar-shimmer {
+  0%, 100% { opacity: 0.4; transform: scaleX(0.8); filter: drop-shadow(0 0 3px #ff1a33); }
+  50% { opacity: 1; transform: scaleX(1.2); filter: drop-shadow(0 0 15px #ff0022); }
+}
+
+.hades-hologram-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: rgba(255, 170, 185, 1);
+  font-family: "Courier New", Courier, monospace;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 5px;
+  white-space: nowrap;
+  text-shadow: 0 0 20px rgba(255, 30, 50, 1), 0 0 35px rgba(255, 0, 30, 0.6);
+  animation: label-flicker 6.5s infinite;
+}
+
+@keyframes label-flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+  20%, 24%, 55% { opacity: 0.65; filter: blur(0.6px); }
+}
+
+.hades-status-glow-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #ff1a33;
+  box-shadow: 0 0 18px #ff1a33, 0 0 35px #ff0022;
+  animation: hades-pulse-core 1.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes hades-pulse-core {
+  0%, 100% {
+    opacity: 0.25;
+    transform: scale(0.5);
+    box-shadow: 0 0 6px #ff1a33;
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.6);
+    box-shadow: 0 0 25px #ff1a33, 0 0 45px #ff0022;
+  }
+}
+
+@keyframes hud-corner-glow {
+  0% { opacity: 0.45; filter: drop-shadow(0 0 4px rgba(255,30,50,0.5)); }
+  100% { opacity: 1; filter: drop-shadow(0 0 15px rgba(255,30,50,1)); }
+}
+
+/* Css da responsividade desse componente */
+@media (max-width: 768px) {
+  .hades-hologram-wrapper {
+    height: 100%;
+    min-height: 100vh;
+    border-radius: 0px;
+  }
+
+  .hades-hologram-label {
+    font-size: 8.5px;
+    letter-spacing: 2.2px;
+  }
+
+  .hades-hologram-hud-footer {
+    width: 95%;
+    bottom: 18px;
+  }
+
+  .hades-hud-corners .corner {
+    width: 16px;
+    height: 16px;
+    border-width: 2px;
+  }
+  
+  .hades-hud-corners .tl { top: 16px; left: 16px; }
+  .hades-hud-corners .tr { top: 16px; right: 16px; }
+  .hades-hud-corners .bl { bottom: 16px; left: 16px; }
+  .hades-hud-corners .br { bottom: 16px; right: 16px; }
+}
